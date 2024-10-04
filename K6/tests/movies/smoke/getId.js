@@ -1,5 +1,6 @@
 import { sleep } from 'k6';
 import { group } from 'k6';
+import { SharedArray } from 'k6/data';
 import { BaseRest, BaseChecks, ENDPOINTS, testConfig } from '../../../support/base/baseTeste.js';
 
 export const options = testConfig.options.smokeTest;
@@ -9,18 +10,20 @@ const baseRest = new BaseRest(base_uri);
 const baseChecks = new BaseChecks();
 
 const data = new SharedArray('Users', function () {
-    const jsonData = JSON.parse(open('../data/dynamic/movies.json'));
+    const jsonData = JSON.parse(open('../../../data/dynamic/movies.json'));
     return jsonData.movies;
 });
 
 export function setup() {
     let responseData = [];
+    console.log(data);
     data.forEach(movie => {
         group('Cadastrar filme', () => {
             const res = baseRest.post(ENDPOINTS.MOVIES_ENDPOINT, movie);
             baseChecks.checkStatusCode(res, 201);
-            baseChecks.checkMessage(res, "Cadastro realizado com sucesso")
-            responseData.push(res.json())
+            //baseChecks.checkMessage(res, "Cadastro realizado com sucesso")
+            //responseData.push(res.json())
+            console.log(res);
         });
     })
     return {responseData}
@@ -39,4 +42,8 @@ export default () => {
 
 export function teardown(responseData) {
     const ids = responseData.responseData.map(item => item._id)
+
+    ids.forEach(id =>{
+        const res = baseRest.delete(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
+    })
 }

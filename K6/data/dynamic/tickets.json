@@ -1,0 +1,25 @@
+{
+  "tickets": [
+    {
+      "movieId": "hRPorabQB-7Lnvy",
+      "userId": "lcnxjkGCRKVUycv",
+      "seatNumber": 68,
+      "price": 86,
+      "showtime": "2022-09-01T19:33:09.142Z"
+    },
+    {
+      "movieId": "bRNvAj_e3_EaUUK",
+      "userId": "K2GNQ2mbIQwI_z6",
+      "seatNumber": 66,
+      "price": 32,
+      "showtime": "2029-07-09T09:04:31.987Z"
+    },
+    {
+      "movieId": "B_MRvhN4Tl0nWdJ",
+      "userId": "fBx6I8UN6TFwq9B",
+      "seatNumber": 44,
+      "price": 5,
+      "showtime": "2027-11-22T00:28:37.896Z"
+    }
+  ]
+}

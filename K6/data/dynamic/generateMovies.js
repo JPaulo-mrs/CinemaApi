@@ -3,21 +3,21 @@ const fs = require('fs');
 
 const quantidade = process.argv[2] || 1;
 
-const movies = [];
+const filmes = [];
 
 for(let i = 0; i < quantidade; i++)
 {
-    const movie = {
-        "title": faker.lorem.words(2),
-        "description": faker.lorem.sentences(2),
-        "launchdate": faker.date.between({ from: '2020-01-01', to: '2030-01-01' }),
-        "showtimes": faker.date.betweens({ from: '2020-01-01T00:00:00.000Z', to: '2030-01-01T00:00:00.000Z', count: { min: 2, max: 5 }})
+    const filme = {
+        title: faker.lorem.words(2),
+        description: faker.lorem.sentences(2),
+        launchdate: faker.date.between({ from: '2020-01-01', to: '2030-01-01' }),
+        showtimes: faker.date.betweens({ from: '2020-01-01T00:00:00.000Z', to: '2030-01-01T00:00:00.000Z', count: { min: 2, max: 5 }})
     }
-    movies.push(movie)
+    filmes.push(filme)
 }
 
 const data = {
-    movies : movies
+    movies : filmes
 }
 
 fs.writeFileSync('movies.json', JSON.stringify(data, null, 2), error =>{
