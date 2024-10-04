@@ -9,8 +9,8 @@ const baseRest = new BaseRest(base_uri);
 const baseChecks = new BaseChecks();
 
 export default () => {
-  group('Listar usuarios', () => {
-    const res = baseRest.get(ENDPOINTS.USER_ENDPOINT);
+  group('Listar filmes', () => {
+    const res = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT);
     baseChecks.checkStatusCode(res, 200);
     baseChecks.checkErrorRate(res); 
     baseChecks.checkResponseTime(res);
