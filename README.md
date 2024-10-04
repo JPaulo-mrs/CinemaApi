@@ -10,7 +10,7 @@
     - [Git](#git)
     - [Node.js](#nodejs)
     - [NPM](#npm)
-    - [Postman](#postman)
+    - [Faker](#faker)
     - [K6](#k6)
   - [Instalação](#instalação)
   - [Endpoints](#endpoints)
@@ -24,10 +24,11 @@
  <br />
 
 ## Cinema PBs
-Para quem está começando em testes de API, a Cinema PBs é uma ferramenta **essencial**. Ela oferece um ambiente **pronto e fácil de usar** para simular um e-commerce real, com endpoints completos e diversos cenários para testar. Com a Cinema PBs, você pode **praticar seus conhecimentos** de testes de API, **explorar diferentes métodos HTTP** e **entender como funcionam as APIs** de forma prática e intuitiva. 
+A API Cinema PBs é voltada para o setor de redes de cinemas, oferecendo uma plataforma completa para armazenar e gerenciar um catálogo de filmes. Com ela, os usuários podem navegar por uma seleção diversificada de títulos, escolher os que mais lhes interessam e adquirir ingressos de forma prática e intuitiva.
 
 ### Dependências
-![vscode](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)![git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)![nodejs](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)![postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)![K6](https://img.shields.io/badge/k6-7D64FF.svg?style=for-the-badge&logo=k6&logoColor=white)
+![vscode](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)![git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)![nodejs](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)![K6](https://img.shields.io/badge/k6-7D64FF.svg?style=for-the-badge&logo=k6&logoColor=white)![Faker.js](https://img.shields.io/badge/Faker.js-Dynamic%20Data-brightgreen)
+
 
 #### VS Code
 Para instalar o Visual Studio Code, siga estes passos:
@@ -58,12 +59,13 @@ Para instalar o Node.js, você pode seguir estes passos:
 #### NPM
 O NPM já vem instalado junto com o Node.js, então você não precisa instalá-lo separadamente! 
 
-#### Postman
-Para instalar o Postman, você pode seguir estes passos:
+#### Faker
+Para instalar o Faker, você pode seguir estes passos:
 
-1. Acesse o site oficial do [Postman](https://www.postman.com/downloads/) e faça o download da versão para o seu sistema operacional.
-2. Execute o arquivo de instalação e siga as instruções na tela.
-3. Após a instalação, abra o Postman e faça login ou crie uma conta gratuita.
+1. Abra o repositório clonado no Visual Studio.
+2. Abra o terminal integrado do Visual Studio Code: Pressione **Ctrl+**.
+3. Execute o comando `cd data/dynamic/lib`.
+4. Execute o comando `npm install --save-dev @faker-js/faker`.
 
 #### K6
 Para instalar o K6, você pode seguir estes passos:
@@ -98,13 +100,87 @@ npm run start
 - Isso irá iniciar a API do Cinema PBs localmente.
 - Acesse a API: Abra o navegador e acesse o endereço que foi exibido no terminal (provavelmente algo como http://localhost:3000). Você verá a página inicial da API.
 
-4. Importando a documentação do Swagger no Postman:
-
-- Baixe o arquivo swagger.json: Acesse o repositório do Cinema PBs no GitHub e navegue até a pasta docs. Baixe o arquivo swagger.json.
-- Instale o Postman: Se você ainda não o fez, baixe e instale o Postman.
-- Importe o arquivo swagger.json: Abra o Postman e clique em "Import". Selecione o arquivo swagger.json que você baixou.
-- Explore a documentação: As coleções do Swagger serão importadas para o Postman. Você pode explorar a documentação da API e começar a fazer suas requisições.
-
 ### Endpoints
+**Movies:**
 
+
+* **Endpoint:** `/movies`
+* **Métodos:**
+    * **POST (Criar filmes):**
+        * **Parâmetros:**
+            * `title` (string): Titulo do filme.
+            * `description` (string): Descrição do filme
+            * `launchdate` (string): Dia de lançamento do filme
+            * `showtimes` (string): Dias de exibição do filme
+        * **Resposta:** Retorna o ID do filme recém-criado.
+    * **GET (Listar filmes):**
+        * **Parâmetros:**
+            * `title` (string): Titulo do filme.
+            * `description` (string): Descrição do filme
+            * `launchdate` (string): Dia de lançamento do filme
+            * `showtimes` (string): Dias de exibição do filme
+            * `_id` (int): ID do filme 
+        * **Resposta:** Retorna uma lista de filmes com seus IDs e informações relevantes.
+    * **GET (Buscar filme por ID):**
+        * **Parâmetros:**
+            * `_id` (int): ID do filme a ser buscado.
+        * **Resposta:** Retorna os dados do filme com o ID especificado.
+    * **PUT (Atualizar filme):**
+        * **Parâmetros:**
+            * `_id` (int): ID do filme.
+        * **Resposta:**
+            * **Sucesso:** Retorna um código de sucesso (ex: 201 - Filme atualizado com sucesso).
+    * **DELETE (Deletar filme):**
+        * **Parâmetros:**
+            * `_id` (int): ID do filme.
+        * **Resposta:**
+            * **Sucesso:** Retorna um código de sucesso (ex: 201 - Filme excluído com sucesso).
+
+**Tickets:**
+
+* **Endpoint:** `/tickets`
+* **Métodos:**
+    * **POST (Criar ticket):**
+        * **Parâmetros:**
+            * `movieId` (string): ID do filme.
+            * `userId` (string): ID do usuário.
+            * `seatNumber` (int): Número do assento.
+            * `price` (int): Valor do ticket.
+            * `showtime` (string): Sessão escolhida.
+        * **Resposta:** Retorna o ID do ticket recém-criado.
+    * **GET (Listar tickets):**
+        * **Parâmetros:**
+            * `movieId` (string): ID do filme.
+            * `userId` (string): ID do usuário.
+            * `seatNumber` (int): Número do assento.
+            * `price` (int): Valor do ticket.
+            * `showtime` (string): Sessão escolhida.
+            * `_id` (int): ID do ticket.
+        * **Resposta:** Retorna uma lista de tickets com seus IDs e informações relevantes.
+    * **GET (Buscar tickets por ID):**
+        * **Parâmetros:**
+            * `_id` (int): ID do ticket a ser buscado.
+        * **Resposta:** Retorna os dados do ticket com o ID especificado.
+    * **PUT (Atualizar ticket):**
+        * **Parâmetros:**
+            * `_id` (int): ID do ticket.
+        * **Resposta:**
+            * **Sucesso:** Retorna um código de sucesso (ex: 201 - ticket atualizado com sucesso).
+    * **DELETE (Deletar ticket):**
+        * **Parâmetros:**
+            * `_id` (int): ID do ticekt.
+        * **Resposta:**
+            * **Sucesso:** Retorna um código de sucesso (ex: 201 - Ticket excluído com sucesso).
 ### Testes no K6
+Para executar os testes no K6 siga os seguintes passos:
+1. **Clonando o repositório:**
+- Obtenha o link do repositório: Acesse o [repositório](https://gitlab.com/JPaulo-mrs/cinemaAPI) no GitLab, clique em code e depois em copiar no Clone with HTTPS.
+- Clone o repositório: Abra o terminal e navegue até o diretório onde deseja clonar o projeto. Execute o seguinte comando, substituindo <link-do-repositorio> pelo link real do repositório:
+~~~bash
+git clone <link-do-repositorio>
+~~~
+- Os arquivos dos testes no K6 estão dentro da pasta "CinemaApi/K6".
+2. **Execute o arquivo guia**  
+- Abra a pasta do K6 e clique no arquivo **Executando testes.bat**.
+- Ao ser executado, o arquivo vai abrir uma lista com todas os testes disponíveis. Para executar um teste, basta digitar o número do teste escolhido e apertar enter.
+
