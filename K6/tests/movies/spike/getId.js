@@ -3,7 +3,7 @@ import { group } from 'k6';
 import { SharedArray } from 'k6/data';
 import { BaseRest, BaseChecks, ENDPOINTS, testConfig } from '../../../support/base/baseTeste.js';
 
-export const options = testConfig.options.smokeTest;
+export const options = testConfig.options.spikeTest;
 
 const base_uri = testConfig.environment.hml.url;
 const baseRest = new BaseRest(base_uri);
@@ -41,14 +41,6 @@ export default (responseData) => {
         const res = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
         baseChecks.checkStatusCode(res, 200);
         baseChecks.checkResponseTime(res, 50);
-    })
-    sleep(1);
-  });
-  group('Atualizar filmes por id', () => {
-    ids.forEach(id =>{
-        const res = baseRest.put(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
-        baseChecks.checkStatusCode(res, 200);
-        baseChecks.checkResponseTime(res, 300);
     })
     sleep(1);
   });

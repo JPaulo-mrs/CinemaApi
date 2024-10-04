@@ -14,14 +14,16 @@ const data = new SharedArray('Users', function () {
     return jsonData.movies;
 });
 
-export function setup() {
+
+export default () => {
     let responseData;
+    
     data.forEach(movie => {
-        group('Cadastrar filme', () => {
-            const resPost = baseRest.post(ENDPOINTS.MOVIES_ENDPOINT, movie);
-            baseChecks.checkStatusCode(resPost, 201);
-            baseChecks.checkResponseTime(resPost, 200);
-        });
+    group('Cadastrar filme', () => {
+        const resPost = baseRest.post(ENDPOINTS.MOVIES_ENDPOINT, movie);
+        baseChecks.checkStatusCode(resPost, 201);
+        baseChecks.checkResponseTime(resPost, 200);
+    });
     })
     group('Listar filmes', () => {
         const resGet = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT);
@@ -30,32 +32,8 @@ export function setup() {
         responseData = resGet.json();
         sleep(1);
     });
-    return {responseData}
-}
-
-
-export default (responseData) => {
-  const ids = responseData.responseData.map(item => item._id)
-  group('Listar filmes por id', () => {
-    ids.forEach(id =>{
-        const res = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
-        baseChecks.checkStatusCode(res, 200);
-        baseChecks.checkResponseTime(res, 50);
-    })
-    sleep(1);
-  });
-  group('Atualizar filmes por id', () => {
-    ids.forEach(id =>{
-        const res = baseRest.put(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
-        baseChecks.checkStatusCode(res, 200);
-        baseChecks.checkResponseTime(res, 300);
-    })
-    sleep(1);
-  });
-};
-
-export function teardown(data) {
-    const ids = data.responseData.map(item => item._id)
+    const ids = responseData.map(item => item._id)
+    console.log(ids);
     group('Deletar filmes',() => {
         ids.forEach(id =>{
             const res = baseRest.delete(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
@@ -63,4 +41,4 @@ export function teardown(data) {
             baseChecks.checkResponseTime(res, 400);
         })
     })
-}
+};

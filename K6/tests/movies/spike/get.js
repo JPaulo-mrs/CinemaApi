@@ -2,7 +2,7 @@ import { sleep } from 'k6';
 import { group } from 'k6';
 import { BaseRest, BaseChecks, ENDPOINTS, testConfig } from '../../../support/base/baseTeste.js';
 
-export const options = testConfig.options.smokeTest;
+export const options = testConfig.options.spikeTest;
 
 const base_uri = testConfig.environment.hml.url;
 const baseRest = new BaseRest(base_uri);

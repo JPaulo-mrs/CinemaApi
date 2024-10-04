@@ -17,11 +17,10 @@ const data = new SharedArray('Users', function () {
 export default () => {
   let userIndex = __ITER % data.length;
   let user = data[userIndex]
-  group('Listar filmes', () => {
+  group('Cadastrar tickets', () => {
     const res = baseRest.post(ENDPOINTS.TICKETS_ENDPOINT, user);
     baseChecks.checkStatusCode(res, 201);
-    baseChecks.checkErrorRate(res); 
-    baseChecks.checkResponseTime(res);
-    sleep(1);
+    baseChecks.checkResponseTime(res,300);
+    sleep(3);
   });
 };

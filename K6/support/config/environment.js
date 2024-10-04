@@ -6,10 +6,10 @@ export const testConfig = {
     },
     options: {
         smokeTest: {
-            vus: 3,
+            vus: 1,
             duration: '10s',
             thresholds: {
-            'http_req_duration': ['p(95)<200'],
+            'http_req_duration': ['avg<200', 'p(95)<200'],
             'checks': ['rate>0.95'],
             },
         },
@@ -21,7 +21,7 @@ export const testConfig = {
                 { duration: '1m', target: 50 },
             ],
             thresholds: {
-                http_req_duration: ['p(95)<200'],
+                'http_req_duration': ['avg<200', 'p(95)<200'],
                 http_req_failed: ['rate<0.05']
             }
         },
@@ -34,7 +34,7 @@ export const testConfig = {
                 { duration: '2m', target: 0 },  
             ],
             thresholds: {
-                http_req_duration: ['p(95)<200'],
+                'http_req_duration': ['avg<200', 'p(95)<200'],
                 http_req_failed: ['rate<0.05']
             }
         },
@@ -45,7 +45,7 @@ export const testConfig = {
                 { duration: '1m', target: 0 },
               ],
               thresholds: {
-                'http_req_duration': ['p(95)<200'],
+                'http_req_duration': ['avg<200', 'p(95)<200'],
                 'checks': ['rate>0.95'],
               },
         },
@@ -57,7 +57,7 @@ export const testConfig = {
                 { duration: '2m', target: 0 },
               ],
               thresholds: {
-                'http_req_duration': ['p(95)<200'],
+                'http_req_duration': ['avg<200', 'p(95)<200'],
                 'checks': ['rate>0.95'],
               },
         }

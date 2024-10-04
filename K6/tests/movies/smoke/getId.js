@@ -15,35 +15,44 @@ const data = new SharedArray('Users', function () {
 });
 
 export function setup() {
-    let responseData = [];
-    console.log(data);
+    let responseData;
     data.forEach(movie => {
         group('Cadastrar filme', () => {
-            const res = baseRest.post(ENDPOINTS.MOVIES_ENDPOINT, movie);
-            baseChecks.checkStatusCode(res, 201);
-            //baseChecks.checkMessage(res, "Cadastro realizado com sucesso")
-            //responseData.push(res.json())
-            console.log(res);
+            const resPost = baseRest.post(ENDPOINTS.MOVIES_ENDPOINT, movie);
+            baseChecks.checkStatusCode(resPost, 201);
+            baseChecks.checkResponseTime(resPost, 200);
         });
     })
+    group('Listar filmes', () => {
+        const resGet = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT);
+        baseChecks.checkStatusCode(resGet, 200);
+        baseChecks.checkResponseTime(resGet, 100);
+        responseData = resGet.json();
+        sleep(1);
+    });
     return {responseData}
 }
 
 
-export default () => {
-  group('Listar filmes', () => {
-    const res = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT);
-    baseChecks.checkStatusCode(res, 200);
-    baseChecks.checkErrorRate(res); 
-    baseChecks.checkResponseTime(res);
+export default (responseData) => {
+  const ids = responseData.responseData.map(item => item._id)
+  group('Listar filmes por id', () => {
+    ids.forEach(id =>{
+        const res = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
+        baseChecks.checkStatusCode(res, 200);
+        baseChecks.checkResponseTime(res, 50);
+    })
     sleep(1);
   });
 };
 
-export function teardown(responseData) {
-    const ids = responseData.responseData.map(item => item._id)
-
-    ids.forEach(id =>{
-        const res = baseRest.delete(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
+export function teardown(data) {
+    const ids = data.responseData.map(item => item._id)
+    group('Deletar filmes',() => {
+        ids.forEach(id =>{
+            const res = baseRest.delete(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
+            baseChecks.checkStatusCode(res, 200);
+            baseChecks.checkResponseTime(res, 400);
+        })
     })
 }

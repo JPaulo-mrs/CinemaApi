@@ -36,14 +36,6 @@ export function setup() {
 
 export default (responseData) => {
   const ids = responseData.responseData.map(item => item._id)
-  group('Listar filmes por id', () => {
-    ids.forEach(id =>{
-        const res = baseRest.get(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)
-        baseChecks.checkStatusCode(res, 200);
-        baseChecks.checkResponseTime(res, 50);
-    })
-    sleep(1);
-  });
   group('Atualizar filmes por id', () => {
     ids.forEach(id =>{
         const res = baseRest.put(ENDPOINTS.MOVIES_ENDPOINT + `/${id}`)

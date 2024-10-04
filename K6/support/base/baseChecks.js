@@ -20,7 +20,7 @@ export class BaseChecks {
         });
     }
     
-    checkResponseTime(response, maxDuration = 200) {
+    checkResponseTime(response, maxDuration) {
         check(response, {
             'tempo de resposta dentro do critério de aceitação': (r) => r.timings.duration < maxDuration,
         });
